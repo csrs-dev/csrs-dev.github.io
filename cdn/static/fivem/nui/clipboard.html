@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <script src="nui://game/ui/jquery.js"></script>
+        <script>
+            let pushIntoClippboard = (content) => {
+                content = String(content);
+
+                let copyFrom = $("<textarea/>").text(content);
+                $("body").append(copyFrom);
+
+                copyFrom.select();
+                document.execCommand("copy");
+                copyFrom.remove();
+            };
+
+            window.addEventListener("message", (event) => {
+                const data = event.data;
+                const eventType = data.type;
+                if (eventType == "toClipboard") {
+                    pushIntoClippboard(data.content);
+                }
+            });
+        </script>
+    </body>
+</html>
